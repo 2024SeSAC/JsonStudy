@@ -11,17 +11,17 @@ struct FUserInfo
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	FString name;
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	int32 age;
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	float height;
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	float weight;
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	bool gender; // true : 여성, false : 남성
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	TArray<FString> favoriteFood;
 };
 
@@ -57,4 +57,13 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void DataToJsonExample();
+
+	UFUNCTION(BlueprintCallable)
+	void JsonToDataExample();
+
+	UPROPERTY(VisibleAnywhere)
+	FUserInfo userInfo;
+	
+	UPROPERTY(VisibleAnywhere)
+	FUserInfo userInfo2;
 };
