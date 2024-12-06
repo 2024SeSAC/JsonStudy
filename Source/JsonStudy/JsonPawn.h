@@ -63,6 +63,30 @@ public:
 };
 
 
+USTRUCT()
+struct FPostInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(VisibleAnywhere)
+	int32 userId;
+	UPROPERTY(VisibleAnywhere)
+	int32 id;
+	UPROPERTY(VisibleAnywhere)
+	FString title;
+	UPROPERTY(VisibleAnywhere)
+	FString body;
+};
+
+USTRUCT()
+struct FPostInfoArray
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY()
+	TArray<FPostInfo> data;
+};
+
 UCLASS()
 class JSONSTUDY_API AJsonPawn : public APawn
 {
@@ -109,7 +133,18 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void LoadData();
 
-
 	FVector GetRandLocation();
 	FRotator GetRandRotation();
+
+public:
+	// HTTP 통신 - Restful API (GET, POST, PUT, DELETE)
+	// Get 방식
+	UFUNCTION(BlueprintCallable)
+	void HttpRequestGet();
+	void HttpRequestPost();
+	UFUNCTION(BlueprintCallable)
+	void HttpRequestImageDownload();
+
+	UPROPERTY(VisibleAnywhere)
+	TArray<FPostInfo> allPost;
 };
