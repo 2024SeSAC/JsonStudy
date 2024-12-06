@@ -139,6 +139,7 @@ void AJsonPawn::CreateShape()
 	shape->SetActorLocation(pos);
 	shape->SetActorRotation(rot);
 	shape->SetActorScale3D(scale);
+	shape->type = randType;
 
 	allShape.Add(shape);
 }
@@ -147,6 +148,61 @@ void AJsonPawn::SaveData()
 {
 	// allShape 의 있는 모양의
 	// 위치, 회전, 스케일, type 을 Json 형태로 바꾸자.
+
+	TArray<FShapeInfo> array;
+	for (int32 i = 0; i < allShape.Num(); i++)
+	{
+		FShapeInfo shape;
+		shape.pos = allShape[i]->GetActorLocation();
+		shape.rot = allShape[i]->GetActorRotation();
+		shape.scale = allShape[i]->GetActorScale3D();
+		shape.type = allShape[i]->type;
+		array.Add(shape);
+	}
+
+	FShapeInfoArray info;
+	info.data = array;
+	FString jsonString;
+	FJsonObjectConverter::UStructToJsonObjectString(
+		FShapeInfoArray::StaticStruct(),
+		&info,
+		jsonString
+	);
+
+	//TArray<TSharedPtr<FJsonValue>> jsonArray;
+	//for (int32 i = 0; i < allShape.Num(); i++)
+	//{
+	//	TSharedPtr<FJsonObject> jsonObject = MakeShared<FJsonObject>();
+	//	// 위치
+	//	jsonObject->SetNumberField(TEXT("pos_x"), allShape[i]->GetActorLocation().X);
+	//	jsonObject->SetNumberField(TEXT("pos_y"), allShape[i]->GetActorLocation().Y);
+	//	jsonObject->SetNumberField(TEXT("pos_z"), allShape[i]->GetActorLocation().Z);
+	//	// 회전
+	//	jsonObject->SetNumberField(TEXT("rot_pitch"), allShape[i]->GetActorRotation().Pitch);
+	//	jsonObject->SetNumberField(TEXT("rot_yaw"), allShape[i]->GetActorRotation().Yaw);
+	//	jsonObject->SetNumberField(TEXT("rot_roll"), allShape[i]->GetActorRotation().Roll);
+	//	// 크기
+	//	jsonObject->SetNumberField(TEXT("scale"), allShape[i]->GetActorScale3D().X);
+	//	// 모양
+	//	jsonObject->SetNumberField(TEXT("type"), allShape[i]->type);
+
+	//	TSharedPtr<FJsonValueObject> valueObj = MakeShared<FJsonValueObject>(jsonObject);
+	//	jsonArray.Add(valueObj);
+	//}
+	//
+	//// jsonArray 를 FString 변환
+	//FString jsonString;
+	//TSharedRef<TJsonWriter<>> jsonWriter = TJsonWriterFactory<>::Create(&jsonString);
+	//FJsonSerializer::Serialize(jsonArray, jsonWriter);
+	//UE_LOG(LogTemp, Warning, TEXT("%s"), *jsonString);
+
+	// jsonString 을 text file 로 저장하자
+	FString path = FPaths::ProjectDir() + TEXT("text.txt");
+	FFileHelper::SaveStringToFile(jsonString, *path);	
+}
+
+void AJsonPawn::LoadData()
+{
 	
 }
 

@@ -34,6 +34,34 @@ public:
 	TArray<FUserInfo> data;
 };
 
+USTRUCT()
+struct FShapeInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY()
+
+	FVector pos;
+	UPROPERTY()
+
+	FRotator rot;
+	UPROPERTY()
+
+	FVector scale;
+	UPROPERTY()
+
+	int32 type;
+};
+
+USTRUCT()
+struct FShapeInfoArray
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY()
+	TArray<FShapeInfo> data;
+};
+
 
 UCLASS()
 class JSONSTUDY_API AJsonPawn : public APawn
@@ -77,6 +105,8 @@ public:
 	void CreateShape();
 	UFUNCTION(BlueprintCallable)
 	void SaveData();
+	UFUNCTION(BlueprintCallable)
+	void LoadData();
 
 
 	FVector GetRandLocation();
