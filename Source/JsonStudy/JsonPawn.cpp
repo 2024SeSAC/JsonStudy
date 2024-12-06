@@ -3,6 +3,7 @@
 
 #include "JsonPawn.h"
 #include "JsonUtilities.h"
+#include "ShapeActor.h"
 
 // Sets default values
 AJsonPawn::AJsonPawn()
@@ -125,5 +126,45 @@ void AJsonPawn::JsonToDataExample()
 	{
 		userInfo2.favoriteFood.Add(jsonArray[i]->AsString());
 	}
+}
+
+void AJsonPawn::CreateShape()
+{
+	FVector pos = GetRandLocation();
+	FRotator rot = GetRandRotation();
+	FVector scale = FVector(FMath::RandRange(0.5f, 3.0f));
+	int32 randType = FMath::RandRange(0, 2);
+
+	AShapeActor* shape = GetWorld()->SpawnActor<AShapeActor>(shapeFactory[randType]);
+	shape->SetActorLocation(pos);
+	shape->SetActorRotation(rot);
+	shape->SetActorScale3D(scale);
+
+	allShape.Add(shape);
+}
+
+void AJsonPawn::SaveData()
+{
+	// allShape 의 있는 모양의
+	// 위치, 회전, 스케일, type 을 Json 형태로 바꾸자.
+	
+}
+
+FVector AJsonPawn::GetRandLocation()
+{
+	FVector pos;
+	pos.X = FMath::RandRange(-500.0f, 500.0f);
+	pos.Y = FMath::RandRange(-500.0f, 500.0f);
+	pos.Z = FMath::RandRange(-500.0f, 500.0f);
+	return pos;
+}
+
+FRotator AJsonPawn::GetRandRotation()
+{
+	FRotator rot;
+	rot.Pitch = FMath::RandRange(0.0f, 360.0f);
+	rot.Yaw = FMath::RandRange(0.0f, 360.0f);
+	rot.Roll = FMath::RandRange(0.0f, 360.0f);
+	return rot;
 }
 

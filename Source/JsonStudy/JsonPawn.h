@@ -66,4 +66,19 @@ public:
 	
 	UPROPERTY(VisibleAnywhere)
 	FUserInfo userInfo2;
+
+public:
+	UPROPERTY(EditDefaultsOnly)
+	TArray<TSubclassOf<class AShapeActor>> shapeFactory;
+	UPROPERTY()
+	TArray<class AShapeActor*> allShape;
+
+	UFUNCTION(BlueprintCallable)
+	void CreateShape();
+	UFUNCTION(BlueprintCallable)
+	void SaveData();
+
+
+	FVector GetRandLocation();
+	FRotator GetRandRotation();
 };
