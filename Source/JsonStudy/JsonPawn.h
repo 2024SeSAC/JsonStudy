@@ -103,6 +103,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void CreateShape();
+	void CreateShape(int32 type, FVector pos, FRotator rot, FVector scale);
 	UFUNCTION(BlueprintCallable)
 	void SaveData();
 	UFUNCTION(BlueprintCallable)

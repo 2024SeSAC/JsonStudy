@@ -135,11 +135,16 @@ void AJsonPawn::CreateShape()
 	FVector scale = FVector(FMath::RandRange(0.5f, 3.0f));
 	int32 randType = FMath::RandRange(0, 2);
 
-	AShapeActor* shape = GetWorld()->SpawnActor<AShapeActor>(shapeFactory[randType]);
+	CreateShape(randType, pos, rot, scale);
+}
+
+void AJsonPawn::CreateShape(int32 type, FVector pos, FRotator rot, FVector scale)
+{
+	AShapeActor* shape = GetWorld()->SpawnActor<AShapeActor>(shapeFactory[type]);
 	shape->SetActorLocation(pos);
 	shape->SetActorRotation(rot);
 	shape->SetActorScale3D(scale);
-	shape->type = randType;
+	shape->type = type;
 
 	allShape.Add(shape);
 }
@@ -203,7 +208,18 @@ void AJsonPawn::SaveData()
 
 void AJsonPawn::LoadData()
 {
+	FString path = FPaths::ProjectDir() + TEXT("text.txt");
+	FString jsonString;
+	FFileHelper::LoadFileToString(jsonString, *path);
+
+	FShapeInfoArray info;
+	FJsonObjectConverter::JsonObjectStringToUStruct(jsonString, &info);
 	
+	for (int32 i = 0; i < info.data.Num(); i++)
+	{
+		FShapeInfo shape = info.data[i];
+		CreateShape(shape.type, shape.pos, shape.rot, shape.scale);
+	}
 }
 
 FVector AJsonPawn::GetRandLocation()
