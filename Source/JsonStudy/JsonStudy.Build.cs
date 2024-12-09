@@ -16,7 +16,8 @@ public class JsonStudy : ModuleRules
 			"EnhancedInput",
 			"Json",
 			"JsonUtilities",
-			"HTTP"
+			"HTTP",
+			"UMG"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

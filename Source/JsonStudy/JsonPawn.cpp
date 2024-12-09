@@ -5,6 +5,7 @@
 #include "JsonUtilities.h"
 #include "ShapeActor.h"
 #include "Http.h"
+#include "MainUI.h"
 
 // Sets default values
 AJsonPawn::AJsonPawn()
@@ -19,6 +20,8 @@ void AJsonPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
+	mainUI = CreateWidget<UMainUI>(GetWorld(), mainUIFactory);
+	mainUI->AddToViewport();
 }
 
 // Called every frame
@@ -364,5 +367,11 @@ void AJsonPawn::HttpRequestImageDownload()
 
 	// 요청을 보내자.
 	httpRequest->ProcessRequest();
+}
+
+void AJsonPawn::DownloadImage()
+{
+	FString url = TEXT("https://s.pstatic.net/static/www/mobile/edit/20241206_1095/upload_1733447050700DtsGL.png");
+	mainUI->AddDownloadImage(url);
 }
 
