@@ -275,7 +275,7 @@ void AJsonPawn::HttpRequestGet()
 	// 서버에게 요청하는 객체 만들자.
 	FHttpRequestRef httpRequest = FHttpModule::Get().CreateRequest();
 	// 요청 URL - 서버가 만들어서 알려줌.
-	httpRequest->SetURL(TEXT("https://jsonplaceholder.typicode.com/posts"));
+	httpRequest->SetURL(TEXT("https://jsonplaceholder.typicode.com/photos"));
 	// 요청 방식 설정 - 서버에 GET, POST, PUT, DELETE 어떤것으로 해야하는지 알려줌
 	httpRequest->SetVerb(TEXT("GET"));
 	// 헤더를 설정 
@@ -287,11 +287,22 @@ void AJsonPawn::HttpRequestGet()
 		{
 			UE_LOG(LogTemp, Warning, TEXT("%s"), *Response->GetContentAsString());
 			FString jsonString = Response->GetContentAsString();
-			jsonString = FString::Printf(TEXT("{\"data\":%s}"), *jsonString);
+			TSharedRef<TJsonReader<>> jsonReader = TJsonReaderFactory<>::Create(jsonString);
+			TArray<TSharedPtr<FJsonValue>> jsonArray;
+			FJsonSerializer::Deserialize(jsonReader, jsonArray);
 
-			FPostInfoArray info;
+			for (int32 i = 0; i < 100; i++)
+			{
+				TSharedPtr<FJsonObject> jsonObject = jsonArray[i]->AsObject();
+				mainUI->AddDownloadImage(jsonObject->GetStringField(TEXT("url")));
+			}
+
+
+
+			//jsonString = FString::Printf(TEXT("{\"data\":%s}"), *jsonString);
+			/*FPostInfoArray info;
 			FJsonObjectConverter::JsonObjectStringToUStruct(jsonString, &info);
-			allPost = info.data;
+			allPost = info.data;*/
 		}
 		else
 		{
@@ -371,7 +382,7 @@ void AJsonPawn::HttpRequestImageDownload()
 
 void AJsonPawn::DownloadImage()
 {
-	FString url = TEXT("https://s.pstatic.net/static/www/mobile/edit/20241206_1095/upload_1733447050700DtsGL.png");
+	FString url = TEXT("https://ssl.pstatic.net/melona/libs/1482/1482857/2e170a50469c9f109ad3_20241202173623747.jpg");
 	mainUI->AddDownloadImage(url);
 }
 

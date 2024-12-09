@@ -19,8 +19,11 @@ void UDownloadImageUI::OnDownloadComplete(UTexture2DDynamic* Texture)
 	if (Texture)
 	{
 		downloadImage->SetBrushFromTextureDynamic(Texture);
-		UCanvasPanelSlot* panelSlot = Cast<UCanvasPanelSlot>(Slot);
-		panelSlot->SetSize(FVector2D(Texture->GetSurfaceWidth(), Texture->GetSurfaceHeight()));
+		float ratio = 600.0f/ Texture->GetSurfaceWidth();
+		downloadImage->SetBrushSize(FVector2D(Texture->GetSurfaceWidth(), Texture->GetSurfaceHeight() * ratio));
+
+		/*UCanvasPanelSlot* panelSlot = Cast<UCanvasPanelSlot>(Slot);
+		panelSlot->SetSize(FVector2D(Texture->GetSurfaceWidth(), Texture->GetSurfaceHeight()));*/
 	}
 	else
 	{
